@@ -6,7 +6,7 @@ Android 13 (SDK 33), build `SDMC/WhaleTV/at30ak:13/TQ1A.230205.002/2026061011164
 (`wm size` / `wm density`), which is how it ships, not damage. `ro.product.brand` and `ro.product.manufacturer` are
 both `SDMC`; the TV calls itself `whaleTV`.
 
-This is a one-session report, not a several-day list. 24 packages were disabled and stayed disabled over four
+This is a one-session report, not a several-day list. 23 packages were disabled and stayed disabled over four
 reboots; Home, YouTube, JioSphere and the Live TV app opened afterwards. **The launcher half is impossible on this
 firmware** (below).
 
@@ -66,7 +66,6 @@ com.zeasn.hotelmodelservice                    # hotel mode
 com.netflix.ninja
 com.netflix.tokenmanager
 com.amazon.amazonvideo.livingroom
-com.WhaleTV.whaleos.youtube.tv                 # WhaleTV's YouTube wrapper; com.google.cobalt_youtube stays
 com.disney.disneyplus
 com.rlaxxtv.tvapp.atv                          # Whale TV+ free channels
 com.qello.qelloGTV
@@ -86,10 +85,17 @@ com.google.android.webview.beta                # not the WebView provider: `dump
 org.chromium.webview_shell
 ```
 
+`com.rlaxxtv.tvapp.atv` was found enabled again two days later without anyone re-enabling it on purpose; it is in
+`key_exclude_preinstall_app_by_package_name` (secure settings), so the firmware may restore it.
+
 `MemAvailable` went from about 370 MB before to about 520 MB after a reboot with the list applied.
 
 ## Kept on purpose
 
+- `com.WhaleTV.whaleos.youtube.tv` (`/product/app/loader_app_25`, its own Cobalt build). It looks like a duplicate of
+  `com.google.cobalt_youtube`, but it is the YouTube that WhaleTV's Home tile and the remote's YouTube button open
+  (`persist.sys.youtube.dynamicname` names it, and `ro.product.youtube_cert_scope` is Zeasn's). With it disabled the
+  owner found YouTube "not working" two days later, while `com.google.cobalt_youtube` still opened from the app list.
 - `com.whaletv.launcher` (Home, app store, installer), `com.zeasn.livetv`, `com.droidlogic.tvinput`,
   `com.droidlogic.dtvkit.inputsource`, `android.cultraview.tv.service`, `com.droidlogic.inputmethod.remote` (the only
   keyboard), `com.android.bluetooth`, `com.android.tv.settings`, `com.droidlogic.tv.settings`,
